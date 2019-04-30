@@ -9,6 +9,7 @@ export default new Vuex.Store({
   strict: true,
   state: {
     initChatList: false,
+    isUpdate: false,
     chatList: [],
     alerts: {success: {s: false, text: 'sus'}, error: {s: false, text: 'error'}},
     dialogAuth: {url: '', s: false}
@@ -41,10 +42,12 @@ export default new Vuex.Store({
   },
   actions: {
     async updateListChat ({state, commit}) {
+      state.isUpdate = true
       try {
         var res = (await ChatListService.getAll()).data
         console.log(res)
         commit('setChatList', res)
+        state.isUpdate = false
       } catch (error) {}
       commit('setInitChatList', true)
     },
